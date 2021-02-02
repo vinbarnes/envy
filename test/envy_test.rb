@@ -13,10 +13,6 @@ class EnvyTest < Minitest::Test
 
     assert_equal "/bin/bash", @envy.get_before_type_cast("SHELL")
     assert_equal "/bin/bash", @envy.get_before_type_cast_or_default("SHELL")
-    # assert_equal({}, @envy._config_hash)
-    # assert_equal({type: :string, default: nil}, @envy._config_hash["XIT"])
-    # assert_equal({type: :string, default: nil}, @envy._config_hash["SHELL"])
-    # assert_equal :to_s, @envy.send(:type_cast_method, "SHELL")
 
     assert_equal "/bin/bash", @envy.get("SHELL")
     assert_equal "/bin/bash", @envy["SHELL"]
