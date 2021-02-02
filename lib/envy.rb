@@ -1,3 +1,26 @@
+# = Envy
+#
+# Envy.get_int("XNUM") # type casts to int using #to_i
+# Envy.get_str("XSTR", "tomax") # with default
+# Envy.get_bool!("XENABLED") # raises if not set
+#
+#   @envy = Envy.new do |config|
+#
+#   end
+#
+#   Envy.config do |config|
+#
+#   end
+#
+# Defaults to @envy = Envy.new(ENV) where ENV is basically a Hash.
+#
+#   @envy = Envy.new # makes testing easier as well as proxying to ENV[]
+#   Envy.parent = @envy # TODO consider better name for "parent"
+#   Envy.register :string, "XSTR", default: "tomax"
+#   Envy.register :integer, "XNUM", default: 0
+#   Envy.register :boolean, "XENABLED", default: true
+#
+
 class Envy
   TYPE_CAST_METHODS = {
     string: :to_s,
