@@ -1,11 +1,3 @@
-module EnvySupport
-  class String < SimpleDelegator
-    def to_bool
-      __getobj__ == "true"
-    end
-  end
-end
-
 class Envy
   TYPE_CAST_METHODS = {
     string: :to_s,
@@ -87,5 +79,13 @@ class Envy
   def type_cast_method(key)
     value_type = @@config.dig(key, :type)
     TYPE_CAST_METHODS[value_type]
+  end
+end
+
+module EnvySupport
+  class String < SimpleDelegator
+    def to_bool
+      __getobj__ == "true"
+    end
   end
 end
