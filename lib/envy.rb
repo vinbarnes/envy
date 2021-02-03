@@ -31,8 +31,11 @@ class Envy
     @@config[key] = {type: type, default: default}
   end
 
-  def environment
-    ENV
+  attr_reader :environment
+
+  # environment should default to ENV but can be overwritten for flexibility
+  def initialize(environment)
+    @environment = environment
   end
 
   def _config_hash

@@ -3,14 +3,15 @@ require_relative "../lib/envy"
 
 class EnvyTest < Minitest::Test
   def setup
+    @envy = Envy.new({
+      "SHELL" => "/bin/bash",
+      "XSTR"  => "xamot",
+      "XNUM"  => "42",
+      "XON"   => "true"
+    })
   end
 
   def test_getters
-    clear_env_vars!
-
-    @envy = Envy.new
-    assert_equal "/bin/bash", ENV["SHELL"]
-
     assert_equal "/bin/bash", @envy.get_before_type_cast("SHELL")
     assert_equal "/bin/bash", @envy.get_before_type_cast_or_default("SHELL")
 
@@ -95,9 +96,6 @@ class EnvyTest < Minitest::Test
 
   private
   def clear_env_vars!
-    %w[XSTR XSTR_DEFAULT XNUM XNUM_DEFAULT XENABLED XENABLED_DEFAULT].each { |key|
-      ENV[key] = nil
-    }
   end
 
 end
