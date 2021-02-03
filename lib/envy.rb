@@ -20,6 +20,17 @@
 #   Envy.register :integer, "XNUM", default: 0
 #   Envy.register :boolean, "XENABLED", default: true
 #
+# Here is an example of the raise case taken from Rails: https://github.com/rails/rails/blob/cf2905d77728d718372767f8bdbec0a62e513242/activerecord/lib/active_record/railties/databases.rake#L141
+#
+#   raise "Empty VERSION provided" if ENV["VERSION"] && ENV["VERSION"].empty?
+#
+# And here is a case of a typecast: https://github.com/rails/rails/blob/cf2905d77728d718372767f8bdbec0a62e513242/activerecord/lib/active_record/railties/databases.rake#L264
+#
+#   step = ENV["STEP"] ? ENV["STEP"].to_i : 1
+#
+# An example of using a default when unset: https://github.com/rails/rails/blob/cf2905d77728d718372767f8bdbec0a62e513242/activerecord/lib/active_record/tasks/postgresql_database_tasks.rb#L8
+#
+#   DEFAULT_ENCODING = ENV["CHARSET"] || "utf8"
 
 class Envy
   TYPE_CAST_METHODS = {
