@@ -1,9 +1,13 @@
+require "forwardable"
+
 class Envy
   TYPE_CAST_METHODS = {
     string: :to_s,
     integer: :to_i,
     boolean: :to_bool
   }
+
+  extend Forwardable
 
   @@config = Hash.new({type: :string, default: nil})
 
@@ -33,10 +37,13 @@ class Envy
 
   attr_reader :environment
 
+  def_delegators :@environment, :has_key?
+
   # environment should default to ENV but can be overwritten for flexibility
   def initialize(environment)
     @environment = environment
   end
+
 
   def _config_hash
     self.class._config_hash
@@ -50,12 +57,19 @@ class Envy
     environment[key] = String(value)
   end
 
-  def get(key)
-    get_type_cast(key)
+  def get(key, default=nil)
+    p environment
+    puts ">>>"
+    p type_cast_value = get_type_cast(key)
+    if type_cast_value.present? || type_cast_value == false
+      type_cast_value
+    else
+      default
+    end
   end
 
   def get_type_cast(key)
-    get_as_envy_string(key).public_send(type_cast_method(key))
+    get_as_envy_string(key).presence&.public_send(type_cast_method(key))
   end
 
   def get_as_envy_string(key)
@@ -89,6 +103,19 @@ module EnvySupport
   class String < SimpleDelegator
     def to_bool
       __getobj__ == "true"
+    end
+
+    # Borrowed from ActiveSupport
+    def blank?
+      respond_to?(:empty?) ? !!empty? : !self
+    end
+
+    def present?
+      !blank?
+    end
+
+    def presence
+      self if present?
     end
   end
 end
